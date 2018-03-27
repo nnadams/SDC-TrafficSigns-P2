@@ -17,7 +17,7 @@ The goals / steps of this project are the following:
 * Summarize the results with a written report
 
 
-[//]: # (Image References)
+[//]: # "Image References"
 
 [allclasses]: ./img/allclasses.png "All Classes"
 [classhisto]: ./img/classhisto.png "Class Histogram"
@@ -65,11 +65,11 @@ After visualizing in the last step the dataset, it is clear that some classes ha
 
 #### 2. Describe what your final model architecture looks like including model type, layers, layer sizes, connectivity, etc.) Consider including a diagram and/or table describing the final model.
 
-My final model consisted of the following layers:
+This network is a slightly modified LeNet from class, including larger fully connected layers and dropout.
 
 |    **Layer**    |               **Description**               |
 | :-------------: | :-----------------------------------------: |
-|      Input      |        32x32x1 RGB Image (grayscale)        |
+|      Input      |    32x32x1 preprocessed grayscale image     |
 | Convolution 5x5 | 1x1 stride, valid padding, outputs 28x28x6  |
 |      RELU       |                                             |
 |   Max Pooling   | 2x2 stride, valid padding, outputs 14x14x6  |
@@ -90,9 +90,11 @@ The model is trained over 15 epochs in batches of 128 at a learning rate of 0.00
 
 #### 4. Describe the approach taken for finding a solution and getting the validation set accuracy to be at least 0.93. Include in the discussion the results on the training, validation and test sets and where in the code these were calculated. Your approach may have been an iterative process, in which case, outline the steps you took to get to the final solution and why you chose those steps. Perhaps your solution involved an already well known implementation or architecture. In this case, discuss why you think the architecture is suitable for the current problem.
 
-Train Accuracy: 0.854053242734
-Validation Accuracy: 0.958956915586
-Test Accuracy: 0.931274742856
+```
+Train Accuracy: 0.872876499243
+Validation Accuracy: 0.966439909054
+Test Accuracy: 0.939192398937
+```
 
 I elected to begin with the LeNet-5 architecture, because it is designed for small black and white images. I believed this would be a good starting point. The traffic sign images I used were only slightly bigger 32x32 vs 28x28 and grayscale rather than binary. At first I did try the full color images in LeNet with very poor results. Moving to grayscale and augmenting the images helped to get the accuary just around 75% for the training set. However the validation set remained lower. I added the dropout layer to help with the overfitting. I did try a handful of other options at this point, such as different activation functions, more convolutional layer, and more dropout layers. However those did not improve accuracy.
 
@@ -112,23 +114,23 @@ I chose some signs from photos that were old looking or vandalized. Unfortunatly
 
 As you can see below, the model was able to correctly guess the 5 images but was tripped up by the stop signs with blinders. Looking head on it was correct, but looking from either side it was not able to, probably beause of shadows.
 
-| Image			        |     Prediction	        					| 
-|:---------------------:|:---------------------------------------------:| 
-| 70 kph                | 70 kph                                        | 
+| Image			        |     Prediction	        					|
+|:---------------------:|:---------------------------------------------:|
+| 70 kph                | 70 kph                                        |
 | Stop     			    | Stop                                          |
 | No Entry				| No entry										|
 | Road Work	      		| Road work	    				 				|
 | Ahead only			| Ahead only          							|
-| Stop     			    | Keep Left                                     |
-| Stop     			    | Stop                                          |
-| Stop     			    | 80 kph                                        |
+| Stop (blinders) | Keep Left                                     |
+| Stop (blinders) | Stop                                          |
+| Stop (blinders) | Stop                                        |
 
 
-The model was able to correctly guess 6 of the 8 traffic signs, which gives an accuracy of 75%. This compares favorably to the accuracy on the test set of 93%.
+The model was able to correctly guess 6 of the 8 traffic signs, which gives an accuracy of 88%. This compares favorably to the accuracy on the test set of 93%.
 
 #### 3. Describe how certain the model is when predicting on each of the five new images by looking at the softmax probabilities for each prediction. Provide the top 5 softmax probabilities for each image along with the sign type of each probability. (OPTIONAL: as described in the "Stand Out Suggestions" part of the rubric, visualizations can also be provided such as bar charts)
 
-Overall the model is not certain about the correct perdictions it is giving. It is finding patterns, because you can see the highest probabilites for the triangle shaped signs are almost triangles, similarly for the circle shapes. The stop signs with blinders as expected are incorrect and have very low probabilities.
+Overall the model on average is certain about the correct predictions it is giving. Also notably it is finding patterns, because you can see the highest probabilities for the triangle shaped signs are almost triangles, similarly for the circle shapes. The stop signs with blinders as expected have lower probabilities.
 
 Below are the top 5 softmax probabilities for each web image.
 
